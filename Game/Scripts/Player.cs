@@ -1,43 +1,69 @@
 using Godot;
 
+namespace Empty.DPlatformer.Game.Scripts;
+
 public partial class Player : CharacterBody3D
 {
-    public const float Speed = 10.0f;
-    public const float JumpVelocity = 22.0f;
+    [Export] private PackedScene _groundSmokeParticles;
+    
+    private const float Speed = 10.0f;
+    private const float JumpVelocity = 22.0f;
 
-    private Node3D LittleAdventurerAndie;
-    private PlayerAnimationTree AnimationTree;
+    private const int MaxHealth = 3;
+    private int _currentHealth;
+    private bool _controllable = true;
+    private bool _isInvincible = false;
+
+    private Node3D _littleAdventurerAndie;
+    private PlayerAnimationTree _animationTree;
+    private AnimationPlayer _materialAnimationPlayer;
+    private GpuParticles3D _footstepParticles;
 
     public override void _Ready()
     {
-        LittleAdventurerAndie = GetNode<Node3D>("%LittleAdventurerAndie");
-        AnimationTree = GetNode<PlayerAnimationTree>("%AnimationTree");
+        _littleAdventurerAndie = GetNode<Node3D>("%LittleAdventurerAndie");
+        _animationTree = GetNode<PlayerAnimationTree>("%AnimationTree");
+        _materialAnimationPlayer = GetNode<AnimationPlayer>("%MaterialAnimationPlayer");
+        _footstepParticles = GetNode<GpuParticles3D>("%Footstep_VFX");
+
+        _currentHealth = MaxHealth;
     }
 
     public override void _Process(double delta)
     {
-        AnimationTree.Set("parameters/StateMachine/GroundMovement/blend_position", Mathf.Abs(Velocity.X));
-        AnimationTree.Set("parameters/StateMachine/Airborne/blend_position", Velocity.Y);
+        HandleMovementParticles();
+        
+        _animationTree.Set("parameters/StateMachine/GroundMovement/blend_position", Mathf.Abs(Velocity.X));
+        _animationTree.Set("parameters/StateMachine/Airborne/blend_position", Velocity.Y);
 
         if (IsOnFloor())
         {
-            AnimationTree.ChangeStateToNormal();
+            _animationTree.ChangeStateToNormal();
         }
         else
         {
-            AnimationTree.ChangeStateToAirborne();
+            _animationTree.ChangeStateToAirborne();
         }
     }
 
     public override void _PhysicsProcess(double delta)
     {
         var velocity = Velocity;
+        
+        if (!_controllable)
+        {
+            velocity += GetGravity() * (float)delta * 8;
+            velocity.X = Mathf.MoveToward(Velocity.X, 0, 1.0f);
+            
+            MoveAndSlide();
+            return;
+        }
 
         // Rotate the character to face the direction of the movement.
         if (velocity.X != 0)
         {
             var faceRight = velocity.X > 0;
-            LittleAdventurerAndie.Rotation = new Vector3(0, faceRight ? 0 : Mathf.Pi, 0);
+            _littleAdventurerAndie.Rotation = new Vector3(0, faceRight ? 0 : Mathf.Pi, 0);
         }
 
         // Add the gravity.
@@ -50,6 +76,7 @@ public partial class Player : CharacterBody3D
         if (Input.IsActionJustPressed("Jump") && IsOnFloor())
         {
             velocity.Y = JumpVelocity;
+            PlayGroundSmokeParticles();
         }
 
         // Handle Movement.
@@ -66,4 +93,52 @@ public partial class Player : CharacterBody3D
         Velocity = velocity;
         MoveAndSlide();
     }
+
+    public void TakeDamage()
+    {
+        if (_currentHealth == 0 || _isInvincible) return;
+        
+        _currentHealth -= 1;
+        _controllable = false;
+        _isInvincible = true;
+
+        if (_currentHealth <= 0)
+        {
+            _animationTree.ChangeStateToDead();
+        }
+        else
+        {
+            _animationTree.Set("parameters/OneShotHurt/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+            _materialAnimationPlayer.Play("Flash");
+            GetTree().CreateTimer(0.9f).Timeout += () => { _controllable = true; };
+            GetTree().CreateTimer(1.9f).Timeout += () =>
+            {
+                _materialAnimationPlayer.Play("RESET");
+                _isInvincible = false;
+            };
+        }
+    }
+
+    private void HandleMovementParticles()
+    {
+        _footstepParticles.Emitting = IsOnFloor() && Velocity.X != 0;
+
+        if (IsOnFloor() && _animationTree.IsStateAirborne())
+        {
+            PlayGroundSmokeParticles();
+        }
+    }
+
+    private void PlayGroundSmokeParticles()
+    {
+        var groundSmokeParticles = _groundSmokeParticles.Instantiate<GpuParticles3D>();
+        var rootNode = GetTree().GetRoot().GetNode<Node3D>("Main");
+
+        rootNode.AddChild(groundSmokeParticles);
+        groundSmokeParticles.GlobalPosition = GlobalPosition + new Vector3(0f, 0.3f, 0.2f);
+        groundSmokeParticles.Restart();
+
+        GetTree().CreateTimer(0.6).Timeout += () => { groundSmokeParticles.QueueFree(); };
+    }
+
 }

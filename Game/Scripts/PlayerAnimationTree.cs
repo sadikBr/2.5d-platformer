@@ -1,23 +1,31 @@
 using Godot;
 
+namespace Empty.DPlatformer.Game.Scripts;
+
 public partial class PlayerAnimationTree : AnimationTree
 {
 
-    private string PlayerState = "Normal";
+    private string _playerState = "Normal";
 
     public void ChangeStateToAirborne()
     {
-        PlayerState = "Airborne";
+        if (_playerState == "Dead") return;
+        
+        _playerState = "Airborne";
     }
 
     public void ChangeStateToNormal()
     {
-        PlayerState = "Normal";
+        if (_playerState == "Dead") return;
+        
+        _playerState = "Normal";
     }
 
     public void ChangeStateToDead()
     {
-        PlayerState = "Dead";
+        _playerState = "Dead";
     }
+    
+    public bool IsStateAirborne() { return _playerState == "Airborne"; }
 
 }
