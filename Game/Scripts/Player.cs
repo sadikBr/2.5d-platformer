@@ -14,7 +14,7 @@ public partial class Player : CharacterBody3D
     
     private const float Speed = 10.0f;
     private const float JumpVelocity = 22.0f;
-    private const int MaxJumpCount = 2;
+    private const int MaxJumpCount = 4;
     private int _currentJumpCount = 0;
 
     private const int MaxHealth = 3;
@@ -134,6 +134,15 @@ public partial class Player : CharacterBody3D
                 _isInvincible = false;
             };
         }
+    }
+    
+    public bool Heal()
+    {
+        if (_currentHealth >= MaxHealth) return false;
+        
+        _currentHealth += 1;
+        EmitSignal(SignalName.PlayerHealthChanged, MaxHealth, _currentHealth);
+        return true;
     }
 
     private void HandleMovementParticles()

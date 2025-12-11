@@ -17,7 +17,7 @@ public partial class GameUI : Control
 		_player.PlayerHealthChanged += HandlePlayerHealthChange;
 		_player.PlayerDied += HandlePlayerDeathUi;
 
-		_heartsContainer = GetNode<HBoxContainer>("HeartsContainer");
+		_heartsContainer = GetNode<HBoxContainer>("%HeartsContainer");
 		_gameOverScreen = GetNode<Control>("GameOverScreen");
 		_restartButton = GetNode<TextureButton>("%RestartButton");
 

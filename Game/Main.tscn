@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://ceveil05wx2fs"]
+[gd_scene load_steps=14 format=3 uid="uid://ceveil05wx2fs"]
 
 [ext_resource type="PackedScene" uid="uid://dc2w1kydtf426" path="res://Asset/LevelScene/level_01.tscn" id="1_wd0a0"]
 [ext_resource type="PackedScene" uid="uid://dkjavmuv0b664" path="res://Game/Scenes/Player.tscn" id="2_w1egk"]
 [ext_resource type="Script" uid="uid://ebsk8pewdm4m" path="res://Game/Scripts/GameUI.cs" id="4_g5pn2"]
 [ext_resource type="Shader" uid="uid://dllp7rndc1owp" path="res://Asset/UI/Shader/Vignette.gdshader" id="4_rl4yr"]
+[ext_resource type="PackedScene" uid="uid://baoki65ubdpcd" path="res://Game/Scenes/HealthPickup.tscn" id="4_x253o"]
 [ext_resource type="PackedScene" uid="uid://cdst6o5mmp0ds" path="res://Game/Scenes/Heart.tscn" id="5_g5pn2"]
 [ext_resource type="Texture2D" uid="uid://dfrdhhlqgw3d2" path="res://Asset/UI/Heart_Empty.png" id="6_haytw"]
 [ext_resource type="PackedScene" uid="uid://g5myfmsndi1c" path="res://Game/Scenes/SpikeTrap.tscn" id="8_3xx61"]
@@ -39,6 +40,15 @@ transform = Transform3D(0.9999907, -0.003618329, 0.0023416064, 0.0036226849, 0.9
 [node name="SpikeTrap4" parent="Spikes" instance=ExtResource("8_3xx61")]
 transform = Transform3D(0.9999907, -0.003618329, 0.0023416064, 0.0036226849, 0.9999917, -0.0018577137, -0.0023348618, 0.0018661836, 0.9999955, 11.5, 0, 3)
 
+[node name="SpikeTrap5" parent="Spikes" instance=ExtResource("8_3xx61")]
+transform = Transform3D(0.9999907, -0.003618329, 0.0023416062, 0.0036226849, 0.9999917, -0.0018577137, -0.0023348618, 0.0018661835, 0.9999955, 70, 8.5, 3)
+
+[node name="SpikeTrap6" parent="Spikes" instance=ExtResource("8_3xx61")]
+transform = Transform3D(0.9999907, -0.003618329, 0.0023416062, 0.0036226849, 0.9999917, -0.0018577137, -0.0023348618, 0.0018661835, 0.9999955, 72, 8.5, 3)
+
+[node name="HealthPickup" parent="." instance=ExtResource("4_x253o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67, 10, 0)
+
 [node name="GameUI" type="Control" parent="." node_paths=PackedStringArray("_player")]
 layout_mode = 3
 anchors_preset = 15
@@ -60,13 +70,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HeartsContainer" type="HBoxContainer" parent="GameUI"]
+[node name="MarginContainer" type="MarginContainer" parent="GameUI"]
 layout_mode = 1
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 250.0
-offset_bottom = 72.0
-size_flags_horizontal = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HeartsContainer" type="HBoxContainer" parent="GameUI/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
 
 [node name="GameOverScreen" type="Control" parent="GameUI"]
 visible = false

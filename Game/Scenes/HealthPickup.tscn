@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://baoki65ubdpcd"]
+
+[ext_resource type="Script" uid="uid://o20uegbhioxd" path="res://Game/Scripts/HealthPickup.cs" id="1_3pev3"]
+[ext_resource type="PackedScene" uid="uid://dt4efnt53c5so" path="res://Asset/VFX/Scene/healitem_mesh.tscn" id="1_xq8xu"]
+[ext_resource type="PackedScene" uid="uid://coclis1mm83of" path="res://Asset/VFX/Scene/healitem_vfx.tscn" id="2_3pev3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_krex0"]
+
+[node name="HealthPickup" type="Node3D"]
+script = ExtResource("1_3pev3")
+
+[node name="HEAL_MESH" parent="." instance=ExtResource("1_xq8xu")]
+
+[node name="HEALITEM_VFX" parent="." instance=ExtResource("2_3pev3")]
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_krex0")
+
+[connection signal="body_entered" from="Area3D" to="." method="OnArea3DBodyEntered"]

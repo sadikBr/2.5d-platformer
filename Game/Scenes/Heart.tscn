@@ -4,5 +4,7 @@
 
 [node name="Heart" type="TextureRect"]
 modulate = Color(0.96862745, 0.47843137, 0.49411765, 1)
+offset_right = 128.0
+offset_bottom = 128.0
 texture = ExtResource("1_nqlta")
-expand_mode = 2
+stretch_mode = 2

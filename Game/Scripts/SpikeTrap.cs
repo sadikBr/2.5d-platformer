@@ -7,10 +7,9 @@ public partial class SpikeTrap : Node3D
 
     private void OnArea3DBodyEntered(Node body)
     {
-        if (body is Player player)
-        {
-            player.TakeDamage();
-        }
+        if (body is not Player player) return;
+        
+        player.TakeDamage();
     }
     
 }
