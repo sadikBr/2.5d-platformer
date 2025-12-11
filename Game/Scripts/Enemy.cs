@@ -60,4 +60,10 @@ public partial class Enemy : CharacterBody3D
 		Velocity = velocity;
 		MoveAndSlide();
 	}
+
+	private void OnArea3DBodyEntered(Node body)
+	{
+		if (body is not Player player) return;
+		player.TakeDamage();
+	}
 }

@@ -14,7 +14,7 @@ public partial class Player : CharacterBody3D
     
     private const float Speed = 10.0f;
     private const float JumpVelocity = 22.0f;
-    private const int MaxJumpCount = 4;
+    private const int MaxJumpCount = 6;
     private int _currentJumpCount = 0;
 
     private const int MaxHealth = 3;

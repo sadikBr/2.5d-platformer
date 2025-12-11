@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://u0rf4qlbx88o"]
+[gd_scene load_steps=14 format=4 uid="uid://u0rf4qlbx88o"]
 
 [ext_resource type="Material" uid="uid://6y8a7flk0cxy" path="res://Asset/Characters/NPC/NPC_01/npc_01_material.tres" id="1_pc4fr"]
 [ext_resource type="Script" uid="uid://dvoqqfe1vr5tp" path="res://Game/Scripts/Enemy.cs" id="1_pvqr0"]
@@ -2298,6 +2298,8 @@ _data = {
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_krex0"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pvqr0"]
+
 [node name="Enemy" type="CharacterBody3D"]
 collision_layer = 4
 script = ExtResource("1_pvqr0")
@@ -2659,3 +2661,13 @@ target_position = Vector3(1.5, 0, 0)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.4, 0)
 target_position = Vector3(0, -0.9, 0)
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_pvqr0")
+
+[connection signal="body_entered" from="Area3D" to="." method="OnArea3DBodyEntered"]
