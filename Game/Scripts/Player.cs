@@ -25,14 +25,18 @@ public partial class Player : CharacterBody3D
     private Node3D _littleAdventurerAndie;
     private PlayerAnimationTree _animationTree;
     private AnimationPlayer _materialAnimationPlayer;
+    
     private GpuParticles3D _footstepParticles;
+    private GpuParticles3D _playerHealParticles;
 
     public override void _Ready()
     {
         _littleAdventurerAndie = GetNode<Node3D>("%LittleAdventurerAndie");
         _animationTree = GetNode<PlayerAnimationTree>("%AnimationTree");
         _materialAnimationPlayer = GetNode<AnimationPlayer>("%MaterialAnimationPlayer");
+        
         _footstepParticles = GetNode<GpuParticles3D>("%Footstep_VFX");
+        _playerHealParticles = GetNode<GpuParticles3D>("%HEAL_Player_VFX");
 
         _currentHealth = MaxHealth;
         CallDeferred(nameof(EmitHealthChangedSignal), MaxHealth, _currentHealth);
@@ -141,6 +145,8 @@ public partial class Player : CharacterBody3D
         if (_currentHealth >= MaxHealth) return false;
         
         _currentHealth += 1;
+        _materialAnimationPlayer.Play("Heal");
+        _playerHealParticles.Emitting = true;
         EmitSignal(SignalName.PlayerHealthChanged, MaxHealth, _currentHealth);
         return true;
     }
