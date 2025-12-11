@@ -146,7 +146,7 @@ public partial class Player : CharacterBody3D
         
         _currentHealth += 1;
         _materialAnimationPlayer.Play("Heal");
-        _playerHealParticles.Emitting = true;
+        _playerHealParticles.Restart();
         EmitSignal(SignalName.PlayerHealthChanged, MaxHealth, _currentHealth);
         return true;
     }
