@@ -14,6 +14,8 @@ public partial class Player : CharacterBody3D
     
     private const float Speed = 10.0f;
     private const float JumpVelocity = 22.0f;
+    private const int MaxJumpCount = 2;
+    private int _currentJumpCount = 0;
 
     private const int MaxHealth = 3;
     private int _currentHealth;
@@ -78,11 +80,16 @@ public partial class Player : CharacterBody3D
         {
             velocity += GetGravity() * (float)delta * 8;
         }
+        else
+        {
+            _currentJumpCount = MaxJumpCount;
+        }
 
         // Handle Jump.
-        if (Input.IsActionJustPressed("Jump") && IsOnFloor())
+        if (Input.IsActionJustPressed("Jump") && (IsOnFloor() || _currentJumpCount > 0))
         {
             velocity.Y = JumpVelocity;
+            _currentJumpCount -= 1;
             PlayGroundSmokeParticles();
         }
 
