@@ -4,6 +4,9 @@ namespace Empty.DPlatformer.Game.Scripts;
 
 public partial class Player : CharacterBody3D
 {
+    [Signal]
+    public delegate void PlayerHealthChangedEventHandler(int maxHealth, int currentHealth);
+    
     [Export] private PackedScene _groundSmokeParticles;
     
     private const float Speed = 10.0f;
@@ -27,6 +30,7 @@ public partial class Player : CharacterBody3D
         _footstepParticles = GetNode<GpuParticles3D>("%Footstep_VFX");
 
         _currentHealth = MaxHealth;
+        CallDeferred(nameof(EmitHealthChangedSignal), MaxHealth, _currentHealth);
     }
 
     public override void _Process(double delta)
@@ -99,6 +103,8 @@ public partial class Player : CharacterBody3D
         if (_currentHealth == 0 || _isInvincible) return;
         
         _currentHealth -= 1;
+        EmitHealthChangedSignal(MaxHealth, _currentHealth);
+        
         _controllable = false;
         _isInvincible = true;
 
@@ -139,6 +145,11 @@ public partial class Player : CharacterBody3D
         groundSmokeParticles.Restart();
 
         GetTree().CreateTimer(0.6).Timeout += () => { groundSmokeParticles.QueueFree(); };
+    }
+
+    private void EmitHealthChangedSignal(int maxHealth, int newHealth)
+    {
+        EmitSignal(SignalName.PlayerHealthChanged, maxHealth, newHealth);
     }
 
 }

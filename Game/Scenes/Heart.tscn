@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdst6o5mmp0ds"]
+
+[ext_resource type="Texture2D" uid="uid://cmnxu0m1kacsi" path="res://Asset/UI/Heart_Full.png" id="1_nqlta"]
+
+[node name="Heart" type="TextureRect"]
+modulate = Color(0.96862745, 0.47843137, 0.49411765, 1)
+texture = ExtResource("1_nqlta")
+expand_mode = 2
