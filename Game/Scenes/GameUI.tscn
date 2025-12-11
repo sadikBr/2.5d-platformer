@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://cg04yf6swl2yi"]
+
+[ext_resource type="Script" uid="uid://ebsk8pewdm4m" path="res://Game/Scripts/GameUI.cs" id="1_v4rgl"]
+[ext_resource type="Shader" uid="uid://dllp7rndc1owp" path="res://Asset/UI/Shader/Vignette.gdshader" id="4_dk33n"]
+[ext_resource type="Texture2D" uid="uid://ccxs78bwrumgx" path="res://Asset/UI/Text_GAMEOVER.png" id="5_2cirx"]
+[ext_resource type="Texture2D" uid="uid://dgwtgy78acpav" path="res://Asset/UI/Button_Restart.png" id="6_7qscq"]
+[ext_resource type="Texture2D" uid="uid://c8npx20nnsseq" path="res://Asset/UI/Button_Restart pressed.png" id="7_2apeh"]
+[ext_resource type="Texture2D" uid="uid://c8c1twbjnftaj" path="res://Asset/UI/Button_Restart_hover.png" id="8_s2u2f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g5pn2"]
+shader = ExtResource("4_dk33n")
+shader_parameter/Intensity = 0.184
+shader_parameter/Color = Color(0, 0, 0, 0.39215687)
+shader_parameter/Size = 25.0
+
+[node name="GameUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v4rgl")
+
+[node name="ColorRectVignettte" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_g5pn2")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HeartsContainer" type="HBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="GameOverScreen" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GameOverScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6862745)
+
+[node name="CenterContainer" type="CenterContainer" parent="GameOverScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverScreen/ColorRect/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="TextureRect" type="TextureRect" parent="GameOverScreen/ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_2cirx")
+
+[node name="RestartButton" type="TextureButton" parent="GameOverScreen/ColorRect/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("6_7qscq")
+texture_pressed = ExtResource("7_2apeh")
+texture_hover = ExtResource("8_s2u2f")

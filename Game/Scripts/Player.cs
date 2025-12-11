@@ -15,12 +15,12 @@ public partial class Player : CharacterBody3D
     private const float Speed = 10.0f;
     private const float JumpVelocity = 22.0f;
     private const int MaxJumpCount = 6;
-    private int _currentJumpCount = 0;
+    private int _currentJumpCount;
 
     private const int MaxHealth = 3;
     private int _currentHealth;
     private bool _controllable = true;
-    private bool _isInvincible = false;
+    private bool _isInvincible;
 
     private Node3D _littleAdventurerAndie;
     private PlayerAnimationTree _animationTree;
@@ -67,7 +67,8 @@ public partial class Player : CharacterBody3D
         {
             velocity += GetGravity() * (float)delta * 8;
             velocity.X = Mathf.MoveToward(Velocity.X, 0, 1.0f);
-            
+
+            Velocity = velocity;
             MoveAndSlide();
             return;
         }
