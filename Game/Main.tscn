@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ceveil05wx2fs"]
+[gd_scene load_steps=13 format=3 uid="uid://ceveil05wx2fs"]
 
 [ext_resource type="PackedScene" uid="uid://dc2w1kydtf426" path="res://Asset/LevelScene/level_01.tscn" id="1_wd0a0"]
 [ext_resource type="PackedScene" uid="uid://dkjavmuv0b664" path="res://Game/Scenes/Player.tscn" id="2_w1egk"]
@@ -7,6 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://cdst6o5mmp0ds" path="res://Game/Scenes/Heart.tscn" id="5_g5pn2"]
 [ext_resource type="Texture2D" uid="uid://dfrdhhlqgw3d2" path="res://Asset/UI/Heart_Empty.png" id="6_haytw"]
 [ext_resource type="PackedScene" uid="uid://g5myfmsndi1c" path="res://Game/Scenes/SpikeTrap.tscn" id="8_3xx61"]
+[ext_resource type="Texture2D" uid="uid://ccxs78bwrumgx" path="res://Asset/UI/Text_GAMEOVER.png" id="8_q34ae"]
+[ext_resource type="Texture2D" uid="uid://dgwtgy78acpav" path="res://Asset/UI/Button_Restart.png" id="9_6o7ua"]
+[ext_resource type="Texture2D" uid="uid://c8npx20nnsseq" path="res://Asset/UI/Button_Restart pressed.png" id="10_x253o"]
+[ext_resource type="Texture2D" uid="uid://c8c1twbjnftaj" path="res://Asset/UI/Button_Restart_hover.png" id="11_krex0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g5pn2"]
 shader = ExtResource("4_rl4yr")
@@ -61,5 +65,48 @@ layout_mode = 1
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 250.0
-offset_bottom = 94.0
+offset_bottom = 72.0
 size_flags_horizontal = 0
+
+[node name="GameOverScreen" type="Control" parent="GameUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GameUI/GameOverScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
+[node name="CenterContainer" type="CenterContainer" parent="GameUI/GameOverScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameUI/GameOverScreen/ColorRect/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="TextureRect" type="TextureRect" parent="GameUI/GameOverScreen/ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("8_q34ae")
+
+[node name="RestartButton" type="TextureButton" parent="GameUI/GameOverScreen/ColorRect/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("9_6o7ua")
+texture_pressed = ExtResource("10_x253o")
+texture_hover = ExtResource("11_krex0")

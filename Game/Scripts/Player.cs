@@ -6,6 +6,9 @@ public partial class Player : CharacterBody3D
 {
     [Signal]
     public delegate void PlayerHealthChangedEventHandler(int maxHealth, int currentHealth);
+
+    [Signal]
+    public delegate void PlayerDiedEventHandler();
     
     [Export] private PackedScene _groundSmokeParticles;
     
@@ -111,6 +114,7 @@ public partial class Player : CharacterBody3D
         if (_currentHealth <= 0)
         {
             _animationTree.ChangeStateToDead();
+            EmitSignal(SignalName.PlayerDied);
         }
         else
         {
