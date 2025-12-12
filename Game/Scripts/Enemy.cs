@@ -13,7 +13,12 @@ public partial class Enemy : CharacterBody3D
 	
 	private Node3D _mesh;
 	private CollisionShape3D _collisionShape;
+	private Area3D _hitbox;
+	
 	private AnimationPlayer _animationPlayer;
+	private AnimationPlayer _materialAnimationPlayer;
+
+	private int _currentHealth = 20;
 	
 	private int _direction;
 	private bool _facingRight = true;
@@ -25,12 +30,20 @@ public partial class Enemy : CharacterBody3D
 		
 		_mesh = GetNode<Node3D>("%EnemyMesh");
 		_collisionShape = GetNode<CollisionShape3D>("%EnemyCollisionShape");
+		_hitbox = GetNode<Area3D>("%Hitbox");
+		
 		_animationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
+		_materialAnimationPlayer = GetNode<AnimationPlayer>("%MaterialAnimationPlayer");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		var velocity = Velocity;
+
+		if (_currentHealth <= 0)
+		{
+			return;
+		}
 
 		// Add the gravity.
 		if (!IsOnFloor())
@@ -60,6 +73,22 @@ public partial class Enemy : CharacterBody3D
 
 		Velocity = velocity;
 		MoveAndSlide();
+	}
+
+	public void TakeDamage(int damage)
+	{
+		if (_currentHealth <= 0) return;
+		
+		_currentHealth -= damage;
+		_materialAnimationPlayer.Play("Flash");
+
+		if (_currentHealth <= 0)
+		{
+			_animationPlayer.Play("NPC_01_DEAD");
+			_collisionShape.SetDeferred(CollisionShape3D.PropertyName.Disabled, true);
+			_hitbox.SetMonitoring(false);
+		}
+		
 	}
 
 	private void OnArea3DBodyEntered(Node body)

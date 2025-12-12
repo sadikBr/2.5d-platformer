@@ -3,12 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bfmby68d8wyk4"
-valid=false
+uid="uid://cj160cp7lrff1"
+path="res://.godot/imported/BladeVFX.glb-1688dfc5a5294fbba9f9fc948e555793.scn"
 
 [deps]
 
-source_file="res://Asset/Characters/Sword/Sword.fbx"
+source_file="res://Asset/Characters/Sword/BladeVFX.glb"
+dest_files=["res://.godot/imported/BladeVFX.glb-1688dfc5a5294fbba9f9fc948e555793.scn"]
 
 [params]
 
@@ -37,7 +38,5 @@ materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
 _subresources={}
-fbx/importer=1
-fbx/allow_geometry_helper_nodes=false
-fbx/embedded_image_handling=1
-fbx/naming_version=1
+gltf/naming_version=2
+gltf/embedded_image_handling=1
