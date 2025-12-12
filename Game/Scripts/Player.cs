@@ -26,8 +26,11 @@ public partial class Player : CharacterBody3D
     
     private bool _controllable = true;
     private bool _isInvincible;
-    private float _uncontrollableRemain;
     
+    private float _uncontrollableRemain;
+    private float _invincibilityRemain;
+
+    private float _invincibilityDuration = 2f;
     private float _getHurtCooldown = 1f;
     private float _meleeAttackCooldown = 0.6f;
 
@@ -86,11 +89,22 @@ public partial class Player : CharacterBody3D
 
         if (!_controllable && _currentHealth > 0 && _uncontrollableRemain > 0)
         {
-            _uncontrollableRemain -= (float) delta;
+            _uncontrollableRemain -= (float)delta;
             if (_uncontrollableRemain <= 0)
             {
                 _uncontrollableRemain = 0;
                 _controllable = true;
+            }
+        }
+
+        if (_isInvincible && _invincibilityRemain > 0)
+        {
+            _invincibilityRemain -= (float)delta;
+            if (_invincibilityRemain <= 0)
+            {
+                _invincibilityRemain = 0;
+                _isInvincible = false;
+                _materialAnimationPlayer.Play("RESET");
             }
         }
 
@@ -173,7 +187,9 @@ public partial class Player : CharacterBody3D
         
         _controllable = false;
         _uncontrollableRemain += _getHurtCooldown;
+        
         _isInvincible = true;
+        _invincibilityRemain += _invincibilityDuration;
 
         if (_currentHealth <= 0)
         {
@@ -185,12 +201,6 @@ public partial class Player : CharacterBody3D
             _animationTree.Set("parameters/OneShotMelee/request", (int)AnimationNodeOneShot.OneShotRequest.Abort);
             _animationTree.Set("parameters/OneShotHurt/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
             _materialAnimationPlayer.Play("Flash");
-            
-            GetTree().CreateTimer(2f).Timeout += () =>
-            {
-                _materialAnimationPlayer.Play("RESET");
-                _isInvincible = false;
-            };
         }
     }
     
@@ -211,6 +221,10 @@ public partial class Player : CharacterBody3D
         _uncontrollableRemain = -1;
 
         EmitSignal(SignalName.PlayerReachedDoor);
+        
+        _isInvincible = true;
+        _invincibilityRemain = -1;
+        _materialAnimationPlayer.Play("RESET");
     }
 
     private void HandleMovementParticles()

@@ -2,7 +2,7 @@ using Godot;
 
 namespace Empty.DPlatformer.Game.Scripts;
 
-public partial class GameUi : Control
+public partial class GameUI : Control
 {
 	[Export] private Player _player;
 	[Export] private PackedScene _heart;
