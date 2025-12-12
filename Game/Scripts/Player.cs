@@ -9,6 +9,9 @@ public partial class Player : CharacterBody3D
 
     [Signal]
     public delegate void PlayerDiedEventHandler();
+
+    [Signal]
+    public delegate void PlayerReachedDoorEventHandler();
     
     [Export] private PackedScene _groundSmokeParticles;
     
@@ -81,7 +84,7 @@ public partial class Player : CharacterBody3D
             _animationTree.ChangeStateToAirborne();
         }
 
-        if (!_controllable && _currentHealth > 0)
+        if (!_controllable && _currentHealth > 0 && _uncontrollableRemain > 0)
         {
             _uncontrollableRemain -= (float) delta;
             if (_uncontrollableRemain <= 0)
@@ -200,6 +203,14 @@ public partial class Player : CharacterBody3D
         _playerHealParticles.Restart();
         EmitSignal(SignalName.PlayerHealthChanged, MaxHealth, _currentHealth);
         return true;
+    }
+
+    public void ReachedTheDoor()
+    {
+        _controllable = false;
+        _uncontrollableRemain = -1;
+
+        EmitSignal(SignalName.PlayerReachedDoor);
     }
 
     private void HandleMovementParticles()

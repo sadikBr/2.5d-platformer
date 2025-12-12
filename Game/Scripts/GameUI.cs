@@ -2,7 +2,7 @@ using Godot;
 
 namespace Empty.DPlatformer.Game.Scripts;
 
-public partial class GameUI : Control
+public partial class GameUi : Control
 {
 	[Export] private Player _player;
 	[Export] private PackedScene _heart;
@@ -16,6 +16,7 @@ public partial class GameUI : Control
 	{
 		_player.PlayerHealthChanged += HandlePlayerHealthChange;
 		_player.PlayerDied += HandlePlayerDeathUi;
+		_player.PlayerReachedDoor += HandlePlayerDeathUi;
 
 		_heartsContainer = GetNode<HBoxContainer>("%HeartsContainer");
 		_gameOverScreen = GetNode<Control>("GameOverScreen");

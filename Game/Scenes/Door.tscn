@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bw607ql64lx8n"]
+
+[ext_resource type="Script" uid="uid://bndxm6dbiljbo" path="res://Game/Scripts/Door.cs" id="1_6me2w"]
+[ext_resource type="PackedScene" uid="uid://bgcup88tkll6" path="res://Asset/Scene/item_door.tscn" id="1_c1bsn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q34ae"]
+size = Vector3(2.5, 2, 5)
+
+[node name="Door" type="Node3D"]
+script = ExtResource("1_6me2w")
+
+[node name="ITEM_DOOR" parent="." instance=ExtResource("1_c1bsn")]
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 0)
+shape = SubResource("BoxShape3D_q34ae")
+
+[connection signal="body_entered" from="Area3D" to="." method="OnArea3DBodyEntered"]

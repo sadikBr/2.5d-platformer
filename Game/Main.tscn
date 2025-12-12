@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ceveil05wx2fs"]
+[gd_scene load_steps=10 format=3 uid="uid://ceveil05wx2fs"]
 
 [ext_resource type="PackedScene" uid="uid://dc2w1kydtf426" path="res://Asset/LevelScene/level_01.tscn" id="1_wd0a0"]
 [ext_resource type="PackedScene" uid="uid://dkjavmuv0b664" path="res://Game/Scenes/Player.tscn" id="2_w1egk"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cdst6o5mmp0ds" path="res://Game/Scenes/Heart.tscn" id="6_3xx61"]
 [ext_resource type="Texture2D" uid="uid://dfrdhhlqgw3d2" path="res://Asset/UI/Heart_Empty.png" id="6_haytw"]
 [ext_resource type="PackedScene" uid="uid://g5myfmsndi1c" path="res://Game/Scenes/SpikeTrap.tscn" id="8_3xx61"]
+[ext_resource type="PackedScene" uid="uid://bw607ql64lx8n" path="res://Game/Scenes/Door.tscn" id="9_q34ae"]
 [ext_resource type="PackedScene" uid="uid://u0rf4qlbx88o" path="res://Game/Scenes/Enemy.tscn" id="13_krex0"]
 
 [node name="Main" type="Node3D"]
@@ -54,3 +55,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.5, 4, 0)
 
 [node name="Enemy3" parent="Enemies" instance=ExtResource("13_krex0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 79.5, 10.5, 0)
+
+[node name="Door" parent="." instance=ExtResource("9_q34ae")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 18.5, 0)
