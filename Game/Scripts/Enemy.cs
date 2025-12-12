@@ -6,6 +6,7 @@ namespace Empty.DPlatformer.Game.Scripts;
 public partial class Enemy : CharacterBody3D
 {
 	private const float Speed = 1.4f;
+	private const int Damage = 2;
 
 	private RayCast3D _forwardRay;
 	private RayCast3D _downwardRay;
@@ -64,6 +65,6 @@ public partial class Enemy : CharacterBody3D
 	private void OnArea3DBodyEntered(Node body)
 	{
 		if (body is not Player player) return;
-		player.TakeDamage();
+		player.TakeDamage(Damage);
 	}
 }

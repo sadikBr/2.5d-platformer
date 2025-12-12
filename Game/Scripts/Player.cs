@@ -13,12 +13,14 @@ public partial class Player : CharacterBody3D
     [Export] private PackedScene _groundSmokeParticles;
     
     private const float Speed = 10.0f;
+    
     private const float JumpVelocity = 22.0f;
     private const int MaxJumpCount = 6;
     private int _currentJumpCount;
 
     private const int MaxHealth = 3;
     private int _currentHealth;
+    
     private bool _controllable = true;
     private bool _isInvincible;
 
@@ -113,11 +115,11 @@ public partial class Player : CharacterBody3D
         MoveAndSlide();
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {
-        if (_currentHealth == 0 || _isInvincible) return;
+        if (_currentHealth <= 0 || _isInvincible) return;
         
-        _currentHealth -= 1;
+        _currentHealth -= damage;
         EmitHealthChangedSignal(MaxHealth, _currentHealth);
         
         _controllable = false;
